@@ -1,18 +1,18 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterableAppend extends IterableBase {
-  constructor(iterable, item) {
+  constructor(iterable, items) {
     super();
     this._iterable = iterable;
-    this._item = item;
+    this._items = items;
   }
 
   *[Symbol.iterator]() {
     yield* this._iterable;
-    yield this._item;
+    yield* this._items;
   }
 }
 
-IterableBase.prototype.append = function (item) {
-  return new IterableAppend(this, item);
+IterableBase.prototype.append = function (...items) {
+  return new IterableAppend(this, items);
 };

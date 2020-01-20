@@ -50,6 +50,18 @@ describe('reduce', () => {
   test('init', () => {
     expect(iter([1, 2, 3, 4, 5]).reduce((x, y) => x + y, 2)).toBe(17);
   });
+  test('one item', () => {
+    expect(iter([1]).reduce((x, y) => x + y)).toBe(1);
+  });
+  test('two items', () => {
+    expect(iter([1, 2]).reduce((x, y) => x + y)).toBe(3);
+  });
+  test('one item and init', () => {
+    expect(iter([1]).reduce((x, y) => x + y, 2)).toBe(3);
+  });
+  test('two items and init', () => {
+    expect(iter([1, 2]).reduce((x, y) => x + y, 2)).toBe(5);
+  });
   test('empty and init', () => {
     expect(iter([]).reduce((x, y) => x + y, 2)).toBe(2);
   });
@@ -64,6 +76,9 @@ describe('reduce', () => {
   });
   test('empty and init index', () => {
     expect(iter([]).reduce((x, y, i) => x.concat([i]), [])).toEqual([]);
+  });
+  test('reduce of a generator', () => {
+    expect(iter([1, 2, 3, 4, 5]).filter(x => x % 2).reduce((x, y) => x + y)).toBe(9);
   });
 });
 

@@ -7,6 +7,7 @@ import './extensions/concat.js';
 import './extensions/filter.js';
 import './extensions/flat.js';
 import './extensions/flat-map.js';
+import './extensions/group-by.js';
 import './extensions/map.js';
 import './extensions/prepend.js';
 import './extensions/reorder.js';

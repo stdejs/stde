@@ -1,18 +1,18 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterablePrepend extends IterableBase {
-  constructor(iterable, item) {
+  constructor(iterable, items) {
     super();
     this._iterable = iterable;
-    this._item = item;
+    this._items = items;
   }
 
   *[Symbol.iterator]() {
-    yield this._item;
+    yield* this._items;
     yield* this._iterable;
   }
 }
 
-IterableBase.prototype.prepend = function (item) {
-  return new IterablePrepend(this, item);
+IterableBase.prototype.prepend = function (...items) {
+  return new IterablePrepend(this, items);
 };

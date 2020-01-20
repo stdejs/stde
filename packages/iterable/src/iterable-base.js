@@ -55,6 +55,14 @@ export class IterableBase {
     return [...this];
   }
 
+  toSet() {
+    return new Set(...this);
+  }
+
+  toMap() {
+    return new Map(...this);
+  }
+
   /**
    * Returns an item of an iterable with a specified index.
    *
@@ -269,16 +277,10 @@ function _reduce(iterable, operation, acc, i) {
  * @ignore
  */
 function _reduce2(iterable, operation, notFoundAction) {
-  let acc;
-  let found = false;
   const iterator = iterable[Symbol.iterator]();
-  for (const item of iterator) {
-    acc = item;
-    found = true;
-    break;
-  }
-  if (!found) {
+  const item = iterator.next();
+  if (item.done) {
     return notFoundAction();
   }
-  return _reduce(iterator, operation, acc, 1);
+  return _reduce(iterator, operation, item.value, 1);
 }
