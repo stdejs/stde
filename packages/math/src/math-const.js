@@ -1,0 +1,27 @@
+// const FLOAT32_WIDTH = 24;
+// const FLOAT64_WIDTH = 53;
+// const FLOAT32_PRECISION = 2 ** -FLOAT32_WIDTH;
+// const FLOAT64_PRECISION = 2 ** -FLOAT64_WIDTH;
+// const POSITIVE_FLOAT32_PRECISION = 2 * FLOAT32_PRECISION;
+// const POSITIVE_FLOAT64_PRECISION = 2 * FLOAT64_PRECISION;
+const MAX_LOG = Math.log(2 ** 127); // Why?
+const TWO_SQRT_E_OVER_PI = 2 * Math.sqrt(Math.E / Math.PI);
+const LOG_TWO_SQRT_E_OVER_PI = Math.log(TWO_SQRT_E_OVER_PI);
+const LOG_PI = Math.log(Math.PI);
+const SQRT_2PI = Math.sqrt(2 * Math.PI);
+const EXP_MINUS_2 = Math.exp(-2);
+
+export const MathConst = Object.freeze({
+  // FLOAT32_WIDTH,
+  // FLOAT64_WIDTH,
+  // FLOAT32_PRECISION,
+  // FLOAT64_PRECISION,
+  // POSITIVE_FLOAT32_PRECISION,
+  // POSITIVE_FLOAT64_PRECISION,
+  MAX_LOG,
+  TWO_SQRT_E_OVER_PI,
+  LOG_TWO_SQRT_E_OVER_PI,
+  LOG_PI,
+  SQRT_2PI,
+  EXP_MINUS_2
+});

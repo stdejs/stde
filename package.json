@@ -1,0 +1,45 @@
+{
+  "name": "stde",
+  "private": true,
+  "author": {
+    "name": "Denis Nikiforov",
+    "email": "denis.nikif@gmail.com"
+  },
+  "license": "ISC",
+  "scripts": {
+    "clean": "rimraf ./coverage ./packages/*/lib",
+    "build": "lerna exec -- babel src --root-mode upward --out-dir lib",
+    "clean-build": "npm run clean && npm run build",
+    "lint": "lerna exec -- eslint src",
+    "lint:fix": "lerna exec -- eslint src --fix",
+    "test": "jest --config=jest.json",
+    "test:watch": "jest --config=jest.json --watch",
+    "test:cover": "jest --config=jest.json --coverage",
+    "doc": "rimraf ./doc && jsdoc -c jsdoc.json",
+    "coveralls": "jest --config=jest.json --coverage --coverageReporters=text-lcov | coveralls",
+    "prepublish": "npm run clean-build && npm run test && npm run lint && npm run build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.0",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.7.7",
+    "babel-eslint": "^10.0.3",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-jsdoc": "^20.3.1",
+    "jest": "^24.9.0",
+    "jsdoc": "^3.6.3",
+    "lerna": "^3.20.2",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.29.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-visualizer": "^3.3.1"
+  },
+  "dependencies": {
+    "@stde/iterable": "file:packages/iterable",
+    "@stde/math": "file:packages/math",
+    "@stde/matrix": "file:packages/matrix"
+  }
+}

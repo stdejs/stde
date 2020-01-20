@@ -1,0 +1,14 @@
+{
+  "name": "@stde/matrix",
+  "version": "1.0.0",
+  "description": "Matrix elements",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Denis Nikiforov",
+    "email": "denis.nikif@gmail.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@stde/iterable": "^1.0.0"
+  }
+}

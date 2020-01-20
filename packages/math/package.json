@@ -1,0 +1,11 @@
+{
+  "name": "@stde/math",
+  "version": "1.0.0",
+  "description": "Math elements",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Denis Nikiforov",
+    "email": "denis.nikif@gmail.com"
+  },
+  "license": "ISC"
+}

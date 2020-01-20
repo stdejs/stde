@@ -1,0 +1,48 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest/globals": true
+  },
+  "extends": ["eslint:recommended", "plugin:jsdoc/recommended"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "assert": "readonly"
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["jest", "jsdoc"],
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-trailing-spaces": "error",
+    "eol-last": ["error", "always"],
+    "no-multiple-empty-lines": "error",
+    "lines-between-class-members": ["error", "always"],
+    "linebreak-style": 0,
+    "padded-blocks": ["error", "never"],
+    "space-in-parens": ["error", "never"],
+    "comma-spacing": "error",
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "space-before-function-paren": ["error", { "anonymous": "always", "named": "never", "asyncArrow": "always" }],
+    "space-before-blocks": "error",
+    "no-whitespace-before-property": "error",
+    "keyword-spacing": "error",
+    "arrow-spacing": "error",
+    "no-extra-parens": "error",
+    "brace-style": ["error", "stroustrup"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "no-var": "error",
+    "no-unused-vars": ["error", { "args": "none" }],
+    "prefer-const": ["error", { "destructuring": "any", "ignoreReadBeforeAssign": false }],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+  }
+}
