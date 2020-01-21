@@ -22,7 +22,13 @@ class IterableTake extends IterableBase {
 }
 
 IterableBase.prototype.take = function (count) {
-  return new IterableTake(this, (item, i) => i < count);
+  // count could be non-numeric (not comparable with 0)
+  // so it's safer to call .skip() for a valid numeric value
+  // and call .takeWhile() otherwise
+  return count < 0
+    ? this.skip(this.length + count)
+    : this.takeWhile((item, i) => i < count);
+  // return this.takeWhile((item, i) => i < count);
 };
 
 IterableBase.prototype.takeWhile = function (pred) {

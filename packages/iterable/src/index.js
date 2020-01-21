@@ -9,6 +9,7 @@ import './extensions/flat.js';
 import './extensions/flat-map.js';
 import './extensions/group-by.js';
 import './extensions/map.js';
+import './extensions/order-by.js';
 import './extensions/prepend.js';
 import './extensions/reorder.js';
 import './extensions/skip.js';
@@ -17,6 +18,8 @@ import './extensions/take.js';
 export {IterableBase} from './iterable-base.js';
 export {Iterable} from './iterable.js';
 export {IterableRange} from './iterable-range.js';
+
+export * from './order.js';
 
 /**
  * Creates an iterable.

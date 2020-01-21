@@ -10,8 +10,6 @@ class IterableGroupBy extends IterableBase {
   }
 
   *[Symbol.iterator]() {
-    // TODO: Cache?
-    // Use .withoutCache()?
     const map = new Map();
     let i = 0;
     for (const item of this._iterable) {

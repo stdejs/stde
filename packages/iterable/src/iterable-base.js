@@ -1,3 +1,5 @@
+import {compare} from './order.js';
+
 /**
  * A base abstract class for all iterable classes.
  */
@@ -11,21 +13,8 @@ export class IterableBase {
     if (new.target === IterableBase) {
       throw new TypeError('Cannot construct IterableBase instances directly');
     }
-    return new Proxy(this, {
-      get: function (target, name) {
-        if (typeof name === 'string' && /^-?\d+$/.test(name)) {
-          return target.get(Number.parseInt(name));
-        }
-        return target[name];
-      },
-      set: function (target, name, value) {
-        if (typeof name === 'string' && /^-?\d+$/.test(name)) {
-          throw new Error(`${target.constructor.name} is a read-only view`);
-        }
-        target[name] = value;
-        return true;
-      }
-    });
+    // TODO: .withIndex()
+    return new Proxy(this, indexAccessHandler);
   }
 
   /**
@@ -56,11 +45,11 @@ export class IterableBase {
   }
 
   toSet() {
-    return new Set(...this);
+    return new Set(this);
   }
 
   toMap() {
-    return new Map(...this);
+    return new Map(this);
   }
 
   /**
@@ -136,60 +125,37 @@ export class IterableBase {
    *
    * An empty iterable has undefined minimum value.
    *
-   * @param      {object}  [comparator=undefined]  The function used to compare items.
+   * @param      {Function}  [comparator=compare]  The function used to compare items.
    * @returns    {object}  A minimum item of an iterable.
    */
-  min(comparator = undefined) {
-    let operation;
-    if (comparator == null) {
-      operation = (x, y) => {
-        if (x <= y) {
-          return x;
-        }
-        if (x > y) {
-          return y;
-        }
-        throw new Error(`Items not comparable: ${x} and ${y}`);
-      };
-    }
-    else {
-      operation = (x, y) => comparator(x, y) <= 0 ? x : y;
-    }
-    return _reduce2(this, operation, () => undefined);
+  min(comparator = compare) {
+    return _reduce2(this, (x, y) => comparator(x, y) < 0 ? x : y, () => undefined);
   }
 
-  max(comparator = undefined) {
-    let operation;
-    if (comparator == null) {
-      operation = (x, y) => {
-        if (x <= y) {
-          return y;
-        }
-        if (x > y) {
-          return x;
-        }
-        throw new Error(`Items not comparable: ${x} and ${y}`);
-      };
-    }
-    else {
-      operation = (x, y) => comparator(x, y) <= 0 ? y : x;
-    }
-    return _reduce2(this, operation, () => undefined);
+  /**
+   * Finds a maximum item of an iterable.
+   *
+   * An empty iterable has undefined maximum value.
+   *
+   * @param      {Function}  [comparator=compare]  The function used to compare items.
+   * @returns    {object}  A maximum item of an iterable.
+   */
+  max(comparator = compare) {
+    return _reduce2(this, (x, y) => comparator(x, y) > 0 ? x : y, () => undefined);
   }
 
-  indexOfMax() {
-    // TODO: What if this contains -Infinity?
-    let max = -Infinity;
-    let index = -1;
-    let i = 0;
-    for (const item of this) {
-      if (item > max) {
-        max = item;
-        index = i;
-      }
-      i++;
-    }
-    return index;
+  indexOfMin(comparator = compare) {
+    let index = 0;
+    let found = true;
+    _reduce2(this, (x, y, i) => comparator(x, y) < 0 ? x : (index = i, y), () => found = false);
+    return found ? index : -1;
+  }
+
+  indexOfMax(comparator = compare) {
+    let index = 0;
+    let found = true;
+    _reduce2(this, (x, y, i) => comparator(x, y) > 0 ? x : (index = i, y), () => found = false);
+    return found ? index : -1;
   }
 
   /**
@@ -284,3 +250,25 @@ function _reduce2(iterable, operation, notFoundAction) {
   }
   return _reduce(iterator, operation, item.value, 1);
 }
+
+const indexAccessHandler = {
+  get: function (target, name) {
+    const value = target[name];
+    if (value !== undefined) {
+      return value;
+    }
+    if (typeof name === 'string' && /^-?\d+$/.test(name)) {
+      return target.get(Number.parseInt(name));
+    }
+  },
+  set: function (target, name, value) {
+    if (typeof name === 'string' && /^-?\d+$/.test(name)) {
+      throw new Error(`${target.constructor.name} is a read-only view, unable to set property ${name}`);
+    }
+    target[name] = value;
+    return true;
+  },
+  deleteProperty(target, prop) {
+    throw new Error(`${target.constructor.name} is a read-only view, unable to delete property's ${name} value`);
+  }
+};

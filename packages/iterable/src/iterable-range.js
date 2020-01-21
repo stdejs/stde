@@ -1,7 +1,7 @@
 import {IterableBase} from './iterable-base.js';
 
 export class IterableRange extends IterableBase {
-  constructor(start, end, step = null) {
+  constructor(start, end, step) {
     super();
     this._start = start;
     this._end = end;

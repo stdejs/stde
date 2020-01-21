@@ -6,7 +6,7 @@ describe('groupBy', () => {
     { city: 'Athens', country: 'GR', temp: 22 },
     { city: 'Barcelona', country: 'ES', temp: 20 },
     { city: 'Madrid', country: 'ES', temp: 18 },
-    { city: 'Rotterdam', country: 'NL', temp: 16 },
+    { city: 'Rotterdam', country: 'NL', temp: 16 }
   ]);
   test('general', () => {
     expect(data.groupBy(x => x.country).toArray()).toEqual([

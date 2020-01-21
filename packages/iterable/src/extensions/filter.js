@@ -40,3 +40,22 @@ IterableBase.prototype.find = function (pred) {
   // We define this alias just for compatibility with the Array type.
   return this.filter(pred).first(undefined);
 };
+
+IterableBase.prototype.slice = function (start = undefined, end = undefined) {
+  if (end < 0) {
+    end += this.length;
+  }
+  if (start !== undefined) {
+    if (start < 0) {
+      start += this.length;
+    }
+    return end !== undefined
+      ? this.filter((item, i) => i >= start && i < end)
+      : this.filter((item, i) => i >= start);
+  }
+  else {
+    return end !== undefined
+      ? this.filter((item, i) => i < end)
+      : this;
+  }
+};

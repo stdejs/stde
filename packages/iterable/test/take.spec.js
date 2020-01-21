@@ -13,6 +13,9 @@ describe('take', () => {
   test('empty', () => {
     expect(iter([]).take(2).toArray()).toEqual([]);
   });
+  test('negative', () => {
+    expect(iter([1, 2, 3, 4, 5]).take(-2).toArray()).toEqual([4, 5]);
+  });
 });
 
 describe('takeWhile', () => {

@@ -21,7 +21,13 @@ class IterableSkip extends IterableBase {
 }
 
 IterableBase.prototype.skip = function (count) {
-  return new IterableSkip(this, (item, i) => i < count);
+  // count could be non-numeric (not comparable with 0)
+  // so it's safer to call .skip() for a valid numeric value
+  // and call .takeWhile() otherwise
+  return count < 0
+    ? this.take(this.length + count)
+    : this.skipWhile((item, i) => i < count);
+  // return this.skipWhile((item, i) => i < count);
 };
 
 IterableBase.prototype.skipWhile = function (pred) {
