@@ -1,6 +1,6 @@
 import {IterableBase} from '../iterable-base.js';
 
-class IterableReorder extends IterableBase {
+class IterablePermute extends IterableBase {
   constructor(iterable, order) {
     super();
     this._iterable = iterable;
@@ -16,6 +16,6 @@ class IterableReorder extends IterableBase {
   }
 }
 
-IterableBase.prototype.reorder = function (order) {
-  return new IterableReorder(this, order);
+IterableBase.prototype.permute = function (order) {
+  return new IterablePermute(this, order);
 };

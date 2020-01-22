@@ -199,37 +199,37 @@ describe('map', () => {
   });
 });
 
-describe('all', () => {
+describe('every', () => {
   test('true', () => {
-    expect(iter([1, 2, 3, 4, 5]).all(x => x > 0)).toBe(true);
+    expect(iter([1, 2, 3, 4, 5]).every(x => x > 0)).toBe(true);
   });
   test('false', () => {
-    expect(iter([1, 2, 3, 4, 5]).all(x => x > 2)).toBe(false);
+    expect(iter([1, 2, 3, 4, 5]).every(x => x > 2)).toBe(false);
   });
   test('empty', () => {
-    expect(iter([]).all(x => x > 0)).toBe(true);
+    expect(iter([]).every(x => x > 0)).toBe(true);
   });
-  test('all() checks items sequentially and stops evaluation after an item not matching the predicate is found', () => {
+  test('every() checks items sequentially and stops evaluation after an item not matching the predicate is found', () => {
     expect(iter([() => 1, () => 2, () => {
       throw new Error();
-    }, 3]).all(x => x() === 1)).toBe(false);
+    }, 3]).every(x => x() === 1)).toBe(false);
   });
 });
 
-describe('any', () => {
+describe('some', () => {
   test('true', () => {
-    expect(iter([1, 2, 3, 4, 5]).any(x => x > 2)).toBe(true);
+    expect(iter([1, 2, 3, 4, 5]).some(x => x > 2)).toBe(true);
   });
   test('false', () => {
-    expect(iter([1, 2, 3, 4, 5]).any(x => x > 7)).toBe(false);
+    expect(iter([1, 2, 3, 4, 5]).some(x => x > 7)).toBe(false);
   });
   test('empty', () => {
-    expect(iter([]).any(x => x > 0)).toBe(false);
+    expect(iter([]).some(x => x > 0)).toBe(false);
   });
-  test('any() checks items sequentially and stops evaluation after an item matching the predicate is found', () => {
+  test('some() checks items sequentially and stops evaluation after an item matching the predicate is found', () => {
     expect(iter([() => 1, () => 2, () => {
       throw new Error();
-    }, 3]).any(x => x() !== 1)).toBe(true);
+    }, 3]).some(x => x() !== 1)).toBe(true);
   });
 });
 
@@ -287,56 +287,56 @@ describe('max', () => {
   });
 });
 
-describe('indexOfMin', () => {
+describe('minIndex', () => {
   test('general', () => {
-    expect(iter([3, 2, 1, 4, 5]).indexOfMin()).toBe(2);
+    expect(iter([3, 2, 1, 4, 5]).minIndex()).toBe(2);
   });
   test('first', () => {
-    expect(iter([5, 2, 3, 4, 1]).indexOfMin()).toBe(4);
+    expect(iter([5, 2, 3, 4, 1]).minIndex()).toBe(4);
   });
   test('last', () => {
-    expect(iter([1, 2, 3, 4, 5]).indexOfMin()).toBe(0);
+    expect(iter([1, 2, 3, 4, 5]).minIndex()).toBe(0);
   });
   test('single', () => {
-    expect(iter([1]).indexOfMin()).toBe(0);
+    expect(iter([1]).minIndex()).toBe(0);
   });
   test('empty', () => {
-    expect(iter([]).indexOfMin()).toBe(-1);
+    expect(iter([]).minIndex()).toBe(-1);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).indexOfMin((x, y) => y - x)).toBe(4);
+    expect(iter([3, 2, 1, 4, 5]).minIndex((x, y) => y - x)).toBe(4);
   });
   test('strings', () => {
-    expect(iter(['foo', 'bar', 'baz']).indexOfMin()).toBe(1);
+    expect(iter(['foo', 'bar', 'baz']).minIndex()).toBe(1);
   });
   test('not comparable', () => {
-    expect(() => iter([1, 2, 3, undefined, 4, 5]).indexOfMin()).toThrow();
+    expect(() => iter([1, 2, 3, undefined, 4, 5]).minIndex()).toThrow();
   });
 });
 
-describe('indexOfMax', () => {
+describe('maxIndex', () => {
   test('general', () => {
-    expect(iter([3, 2, 1, 4, 5]).indexOfMax()).toBe(4);
+    expect(iter([3, 2, 1, 4, 5]).maxIndex()).toBe(4);
   });
   test('first', () => {
-    expect(iter([5, 2, 3, 4, 1]).indexOfMax()).toBe(0);
+    expect(iter([5, 2, 3, 4, 1]).maxIndex()).toBe(0);
   });
   test('last', () => {
-    expect(iter([1, 2, 3, 4, 5]).indexOfMax()).toBe(4);
+    expect(iter([1, 2, 3, 4, 5]).maxIndex()).toBe(4);
   });
   test('single', () => {
-    expect(iter([1]).indexOfMax()).toBe(0);
+    expect(iter([1]).maxIndex()).toBe(0);
   });
   test('empty', () => {
-    expect(iter([]).indexOfMax()).toBe(-1);
+    expect(iter([]).maxIndex()).toBe(-1);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).indexOfMax((x, y) => y - x)).toBe(2);
+    expect(iter([3, 2, 1, 4, 5]).maxIndex((x, y) => y - x)).toBe(2);
   });
   test('strings', () => {
-    expect(iter(['foo', 'bar', 'baz']).indexOfMax()).toBe(0);
+    expect(iter(['foo', 'bar', 'baz']).maxIndex()).toBe(0);
   });
   test('not comparable', () => {
-    expect(() => iter([1, 2, 3, undefined, 4, 5]).indexOfMax()).toThrow();
+    expect(() => iter([1, 2, 3, undefined, 4, 5]).maxIndex()).toThrow();
   });
 });

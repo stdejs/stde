@@ -4,14 +4,15 @@ import {IterableRange} from './iterable-range.js';
 // Import extension methods
 import './extensions/append.js';
 import './extensions/concat.js';
+import './extensions/distinct.js';
 import './extensions/filter.js';
 import './extensions/flat.js';
 import './extensions/flat-map.js';
 import './extensions/group-by.js';
 import './extensions/map.js';
 import './extensions/order-by.js';
+import './extensions/permute.js';
 import './extensions/prepend.js';
-import './extensions/reorder.js';
 import './extensions/skip.js';
 import './extensions/take.js';
 

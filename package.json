@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rimraf ./coverage ./packages/*/lib",
     "build": "lerna exec -- babel src --root-mode upward --out-dir lib",
+    "build:watch": "lerna exec --parallel -- babel-watch src --root-mode upward --out-dir lib",
     "clean-build": "npm run clean && npm run build",
     "lint": "lerna exec -- eslint src",
     "lint:fix": "lerna exec -- eslint src --fix",

@@ -145,7 +145,7 @@ export class MatrixBase {
   _checkAxes(axes) {
     assert(axes.length === this.dims.length,
       `Axes [${axes}] should contain number of elements equals to matrix dims (${this.dims.length})`);
-    assert(axes.slice().sort().all((a, i) => a === i),
+    assert(axes.slice().sort().every((a, i) => a === i),
       `Axes [${axes}] should be a permutation of [${this.dims.map((d, i) => i).join(',')}]`);
   }
 
@@ -154,7 +154,7 @@ export class MatrixBase {
       `Indices (${indices}) should be an array`);
     assert(indices.length <= this.dims.length,
       `Too many indices [${indices}] for matrix ${this._dimsToString()}`);
-    assert(iter(indices).all((x, i) => x >= 0 && x < this.dims[i]),
+    assert(iter(indices).every((x, i) => x >= 0 && x < this.dims[i]),
       `Wrong indices [${indices}] for matrix ${this._dimsToString()}`);
   }
 

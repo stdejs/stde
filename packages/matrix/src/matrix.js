@@ -24,7 +24,7 @@ export class Matrix extends MatrixStorage {
   constructor(dims, dataOrType) {
     assert(dims.length > 0, 'Matrix should have at least one dimension');
     dims = iter(dims);
-    assert(dims.all(x => x > 0), `Matrix has wrong dims: [${dims.join(', ')}]`);
+    assert(dims.every(x => x > 0), `Matrix has wrong dims: [${dims.join(', ')}]`);
     super(dims.reduce((x, y) => x * y, 1), dataOrType);
     this._dims = dims;
   }

@@ -144,14 +144,19 @@ export class IterableBase {
     return _reduce2(this, (x, y) => comparator(x, y) > 0 ? x : y, () => undefined);
   }
 
-  indexOfMin(comparator = compare) {
+  extent(comparator = compare) {
+    // TODO: One pass
+    return [this.min(comparator), this.max(comparator)];
+  }
+
+  minIndex(comparator = compare) {
     let index = 0;
     let found = true;
     _reduce2(this, (x, y, i) => comparator(x, y) < 0 ? x : (index = i, y), () => found = false);
     return found ? index : -1;
   }
 
-  indexOfMax(comparator = compare) {
+  maxIndex(comparator = compare) {
     let index = 0;
     let found = true;
     _reduce2(this, (x, y, i) => comparator(x, y) > 0 ? x : (index = i, y), () => found = false);
@@ -168,7 +173,7 @@ export class IterableBase {
    * @param      {Function}  pred    The predicate.
    * @returns    {boolean}   A function value.
    */
-  all(pred) {
+  every(pred) {
     let i = 0;
     for (const item of this) {
       if (!pred(item, i++, this)) {
@@ -187,7 +192,7 @@ export class IterableBase {
    * @param      {Function}  pred    The predicate.
    * @returns    {boolean}   A function value.
    */
-  any(pred) {
+  some(pred) {
     let i = 0;
     for (const item of this) {
       if (pred(item, i++, this)) {
@@ -195,6 +200,27 @@ export class IterableBase {
       }
     }
     return false;
+  }
+
+  findIndex(pred) {
+    let i = 0;
+    for (const item of this) {
+      if (pred(item, i++, this)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  indexOf(item, fromIndex = 0) {
+    return this.skip(fromIndex).findIndex(it => it === item);
+  }
+
+  // Just for compatibility with arrays
+  // Arrays has a different interpretation of negative fromIndex
+  // TODO: contains, has?
+  includes(item, fromIndex = 0) {
+    return this.indexOf(item, fromIndex) !== -1;
   }
 
   /**
@@ -227,6 +253,74 @@ export class IterableBase {
   join(sep = ',') {
     return _reduce2(this, (x, y) => x + sep + y, () => '');
   }
+
+  sum() {
+    return this.reduce(this, (x, y) => x + y, 0);
+  }
+
+  product() {
+    return this.reduce(this, (x, y) => x * y, 1);
+  }
+
+  /**
+   * Calculates the average of items.
+   *
+   * @returns    {number}  Average of items or NaN for empty iterable.
+   */
+  mean() {
+    // There are different kinds of mean: arithmetic, geometric, harmonic
+    // Is it better to use avg?
+    // However in stats mean = avg
+    return this.sum() / this.length;
+  }
+
+  // TODO:
+  // join
+  // groupJoin
+  // intersect, intersection
+  // repeat
+  // reverse
+  // sequenceEqual, equal, equals
+  // union
+  // zip
+  // order indices?
+  //
+  // except, ... by custom equality operator? No, filter is enough
+  //
+  // Lodash:
+  // chunk
+  // compact
+  // difference
+  // findIndex
+  // sortedIndex
+  // sortedUniq
+  // unzip
+  // xor, symmetricDifference
+  // reduceRight (js)
+  // sample, sampleSize
+  // shuffle
+  //
+  // js:
+  // findIndex
+  // forEach
+  //
+  // fromIndex? last? for some methods
+  //
+  // d3js
+  // median
+  // cumsum
+  // quantile, variance, deviation - distribution required?
+  // bisect, bisectLeft, bisectRight
+  // quickselect
+  // rollup (is it groupBy?)
+  // count (non empty)
+  // cross (is it join?)
+  // pairs (may be useful for segments)
+  // permute (rename reorder?)
+  // shuffle
+  // ticks (similar to range, but different)
+  // range (optional start?)
+  // bin (related to Lodash chunk)
 }
 
 /**
