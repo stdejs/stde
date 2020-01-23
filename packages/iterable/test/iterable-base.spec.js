@@ -287,6 +287,33 @@ describe('max', () => {
   });
 });
 
+describe('extent', () => {
+  test('general', () => {
+    expect(iter([3, 2, 1, 4, 5]).extent()).toEqual([1, 5]);
+  });
+  test('first', () => {
+    expect(iter([1, 2, 3, 4, 5]).extent()).toEqual([1, 5]);
+  });
+  test('last', () => {
+    expect(iter([5, 2, 3, 4, 1]).extent()).toEqual([1, 5]);
+  });
+  test('single', () => {
+    expect(iter([1]).extent()).toEqual([1, 1]);
+  });
+  test('empty', () => {
+    expect(iter([]).extent()).toEqual([undefined, undefined]);
+  });
+  test('custom comparator', () => {
+    expect(iter([3, 2, 1, 4, 5]).extent((x, y) => y - x)).toEqual([5, 1]);
+  });
+  test('strings', () => {
+    expect(iter(['foo', 'bar', 'baz']).extent()).toEqual(['bar', 'foo']);
+  });
+  test('not comparable', () => {
+    expect(() => iter([1, 2, 3, undefined, 4, 5]).extent()).toThrow();
+  });
+});
+
 describe('minIndex', () => {
   test('general', () => {
     expect(iter([3, 2, 1, 4, 5]).minIndex()).toBe(2);

@@ -10,7 +10,7 @@ class IterableZip extends IterableBase {
     const iterators = this._iterables.map(iterable => iterable[Symbol.iterator]());
     let items;
     while ((items = iterators.map(iterator => iterator.next())).every(item => !item.done)) {
-      yield items;
+      yield items.map(item => item.value);
     }
   }
 }
