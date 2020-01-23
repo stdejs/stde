@@ -231,9 +231,6 @@ export class IterableBase {
    * @returns    {object}   A reduction result.
    */
   reduce(operation, init = undefined) {
-    // TODO: It's said that Array.prototype.reduce should skip empty items,
-    // but it seems that Chrome implementation doesn't skip it
-    // So we don't skip it either
     if (arguments.length >= 2) {
       return _reduce(this, operation, init, 0);
     }
@@ -242,6 +239,10 @@ export class IterableBase {
         throw new TypeError('Iterable is empty and init is not defined');
       });
     }
+  }
+
+  reduceRight(operation, init = undefined) {
+    return this.reverse().reduce(operation, init);
   }
 
   /**
@@ -274,15 +275,42 @@ export class IterableBase {
     return this.sum() / this.length;
   }
 
+  union(...iterables) {
+    return this.concat(...iterables).distinct();
+  }
+
+  // equals(...iterables) {
+  //   // TODO: Performance
+  //   const n = this.length;
+  //   if (!iterables.every(iterable => iterable.length === n)) {
+  //     return false;
+  //   }
+  // }
+
+  unzip() {
+    const iterator = this[Symbol.iterator]();
+    const head = iterator.next();
+    if (head.done || head.value.length === 0) {
+      return [];
+    }
+    const result = new Array(head.value.length);
+    for (let i = 0; i < head.value.length; i++) {
+      result[i] = this.map(item => item[i]);
+    }
+    return result;
+  }
+
+  forEach(action) {
+    let i = 0;
+    for (const item of this) {
+      action(item, i++, this);
+    }
+  }
+
   // TODO:
   // join
   // groupJoin
-  // intersect, intersection
-  // repeat
-  // reverse
   // sequenceEqual, equal, equals
-  // union
-  // zip
   // order indices?
   //
   // except, ... by custom equality operator? No, filter is enough
@@ -290,21 +318,18 @@ export class IterableBase {
   // Lodash:
   // chunk
   // compact
-  // difference
   // findIndex
   // sortedIndex
   // sortedUniq
-  // unzip
-  // xor, symmetricDifference
-  // reduceRight (js)
   // sample, sampleSize
   // shuffle
   //
   // js:
   // findIndex
-  // forEach
   //
   // fromIndex? last? for some methods
+  // equators for some methods
+  // auto-cast array, ... arguments to iterable?
   //
   // d3js
   // median
@@ -316,7 +341,6 @@ export class IterableBase {
   // count (non empty)
   // cross (is it join?)
   // pairs (may be useful for segments)
-  // permute (rename reorder?)
   // shuffle
   // ticks (similar to range, but different)
   // range (optional start?)

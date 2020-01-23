@@ -10,6 +10,7 @@
     "clean": "rimraf ./coverage ./packages/*/lib",
     "build": "lerna exec -- babel src --root-mode upward --out-dir lib",
     "build:watch": "lerna exec --parallel -- babel-watch src --root-mode upward --out-dir lib",
+    "dist": "lerna exec -- rollup --config ../../rollup.config.js",
     "clean-build": "npm run clean && npm run build",
     "lint": "lerna exec -- eslint src",
     "lint:fix": "lerna exec -- eslint src --fix",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.0",
     "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/preset-env": "^7.7.7",
     "babel-eslint": "^10.0.3",
     "coveralls": "^3.0.9",
