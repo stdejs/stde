@@ -1,6 +1,6 @@
 import {iter} from '../src';
 
-describe('distinct', () => {
+describe('ordered', () => {
   test('general', () => {
     expect(iter([3, 2, 1, 1, 3, 4, 1, 5]).orderBy().distinct().toArray()).toEqual([1, 2, 3, 4, 5]);
   });
@@ -30,6 +30,16 @@ describe('distinct', () => {
   });
   test('indexOf none', () => {
     expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().indexOf(7)).toBe(-1);
+  });
+
+  test('sortedIndex skip', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().skip(4).sortedIndex(3)).toBe(0);
+  });
+  test('sortedIndex take', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().take(5).sortedIndex(4)).toBe(5);
+  });
+  test('sortedIndex except', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().except(3).sortedIndex(4)).toBe(3);
   });
 
   // const data = iter([

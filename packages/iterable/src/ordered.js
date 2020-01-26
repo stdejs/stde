@@ -4,8 +4,6 @@ import {orders} from './order.js';
 
 // Optimization for:
 // min, max, minIndex, maxIndex, orderBy? - only if order is compatible
-// TODO:
-// skip, take, filter, ... preserve order
 export class OrderedIterable extends IterableBase {
   constructor(iterable, order) {
     super();
@@ -22,41 +20,11 @@ export class OrderedIterable extends IterableBase {
   }
 
   sortedIndex(item, start, end) {
-    if (start == null) {
-      start = 0;
-    }
-    if (end == null) {
-      end = this.length;
-    }
-    while (start < end) {
-      const mid = start + end >>> 1;
-      if (this._order.compare(this.get(mid), item) < 0) {
-        start = mid + 1;
-      }
-      else {
-        end = mid;
-      }
-    }
-    return start;
+    return _sortedIndex(this, start, end, x => this._order.compare(item, x) <= 0);
   }
 
   sortedIndexRight(item, start, end) {
-    if (start == null) {
-      start = 0;
-    }
-    if (end == null) {
-      end = this.length;
-    }
-    while (start < end) {
-      const mid = start + end >>> 1;
-      if (this._order.compare(this.get(mid), item) > 0) {
-        end = mid;
-      }
-      else {
-        start = mid + 1;
-      }
-    }
-    return start;
+    return _sortedIndex(this, start, end, x => this._order.compare(item, x) < 0);
   }
 
   indexOf(item, start, end) {
@@ -82,6 +50,18 @@ export class OrderedIterable extends IterableBase {
       }
     }
     return true;
+  }
+
+  filter(pred) {
+    return super.filter(pred).withOrder(this._order);
+  }
+
+  skipWhile(pred) {
+    return super.skipWhile(pred).withOrder(this._order);
+  }
+
+  takeWhile(pred) {
+    return super.takeWhile(pred).withOrder(this._order);
   }
 
   // min(...orderings) {
@@ -119,3 +99,22 @@ class OrderedIterableDistinct extends OrderedIterable {
 IterableBase.prototype.withOrder = function (...orderings) {
   return new OrderedIterable(this, orders(...orderings));
 };
+
+function _sortedIndex(iterable, start, end, selectLeft) {
+  if (start == null) {
+    start = 0;
+  }
+  if (end == null) {
+    end = iterable.length;
+  }
+  while (start < end) {
+    const mid = start + end >>> 1;
+    if (selectLeft(iterable.get(mid))) {
+      end = mid;
+    }
+    else {
+      start = mid + 1;
+    }
+  }
+  return start;
+}
