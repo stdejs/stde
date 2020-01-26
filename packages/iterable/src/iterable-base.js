@@ -1,4 +1,4 @@
-import {compare} from './order.js';
+import {compare, orders} from './order.js';
 
 /**
  * A base abstract class for all iterable classes.
@@ -128,8 +128,10 @@ export class IterableBase {
    * @param      {Function}  [comparator=compare]  The function used to compare items.
    * @returns    {object}  A minimum item of an iterable.
    */
-  min(comparator = compare) {
-    return _reduce2(this, (x, y) => comparator(x, y) < 0 ? x : y, () => undefined);
+  min(...orderings) {
+    // return _reduce2(this, (x, y) => comparator(x, y) < 0 ? x : y, () => undefined);
+    const order = orders(...orderings);
+    return _reduce2(this, (x, y) => order.compare(x, y) < 0 ? x : y, () => undefined);
   }
 
   /**
@@ -140,26 +142,32 @@ export class IterableBase {
    * @param      {Function}  [comparator=compare]  The function used to compare items.
    * @returns    {object}  A maximum item of an iterable.
    */
-  max(comparator = compare) {
-    return _reduce2(this, (x, y) => comparator(x, y) > 0 ? x : y, () => undefined);
+  max(...orderings) {
+    // return _reduce2(this, (x, y) => comparator(x, y) > 0 ? x : y, () => undefined);
+    const order = orders(...orderings);
+    return _reduce2(this, (x, y) => order.compare(x, y) > 0 ? x : y, () => undefined);
   }
 
-  extent(comparator = compare) {
+  extent(...orderings) {
     // TODO: One pass
-    return [this.min(comparator), this.max(comparator)];
+    return [this.min(...orderings), this.max(...orderings)];
   }
 
-  minIndex(comparator = compare) {
+  minIndex(...orderings) {
     let index = 0;
     let found = true;
-    _reduce2(this, (x, y, i) => comparator(x, y) < 0 ? x : (index = i, y), () => found = false);
+    const order = orders(...orderings);
+    // _reduce2(this, (x, y, i) => comparator(x, y) < 0 ? x : (index = i, y), () => found = false);
+    _reduce2(this, (x, y, i) => order.compare(x, y) < 0 ? x : (index = i, y), () => found = false);
     return found ? index : -1;
   }
 
-  maxIndex(comparator = compare) {
+  maxIndex(...orderings) {
     let index = 0;
     let found = true;
-    _reduce2(this, (x, y, i) => comparator(x, y) > 0 ? x : (index = i, y), () => found = false);
+    const order = orders(...orderings);
+    // _reduce2(this, (x, y, i) => comparator(x, y) > 0 ? x : (index = i, y), () => found = false);
+    _reduce2(this, (x, y, i) => order.compare(x, y) > 0 ? x : (index = i, y), () => found = false);
     return found ? index : -1;
   }
 
@@ -307,6 +315,10 @@ export class IterableBase {
     }
   }
 
+  // withUnique(keySelector, equator) {
+
+  // }
+
   // TODO:
   // join
   // groupJoin
@@ -331,7 +343,7 @@ export class IterableBase {
   // equators for some methods
   // auto-cast array, ... arguments to iterable?
   //
-  // d3js
+  // d3js:
   // median
   // cumsum
   // quantile, variance, deviation - distribution required?

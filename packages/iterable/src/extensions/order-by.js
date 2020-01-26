@@ -1,16 +1,14 @@
 import {IterableBase} from '../iterable-base.js';
-import {orders} from '../order.js';
+import {OrderedIterable} from '../ordered-iterable.js';
 
-class IterableOrderBy extends IterableBase {
+class IterableOrderBy extends OrderedIterable {
   constructor(iterable, orderings) {
-    super();
-    this._iterable = iterable;
-    this._order = orders(...orderings);
+    super(iterable, orderings);
   }
 
   *[Symbol.iterator]() {
     // TODO: Lazy?
-    yield* [...this._iterable].sort((x, y) => this._order.compare(x, y));
+    yield* [...super[Symbol.iterator]()].sort((x, y) => this._order.compare(x, y));
   }
 }
 

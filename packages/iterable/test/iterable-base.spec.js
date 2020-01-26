@@ -1,5 +1,6 @@
 import {IterableBase} from '../src';
 import {iter} from '../src';
+import {asc} from '../src';
 
 describe('general', () => {
   test('abstract IterableBase', () => {
@@ -250,7 +251,7 @@ describe('min', () => {
     expect(iter([]).min()).toBe(undefined);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).min((x, y) => y - x)).toBe(5);
+    expect(iter([3, 2, 1, 4, 5]).min(asc(x => x, (x, y) => y - x))).toBe(5);
   });
   test('strings', () => {
     expect(iter(['foo', 'bar', 'baz']).min()).toBe('bar');
@@ -277,7 +278,7 @@ describe('max', () => {
     expect(iter([]).max()).toBe(undefined);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).max((x, y) => y - x)).toBe(1);
+    expect(iter([3, 2, 1, 4, 5]).max(asc(x => x, (x, y) => y - x))).toBe(1);
   });
   test('strings', () => {
     expect(iter(['foo', 'bar', 'baz']).max()).toBe('foo');
@@ -304,7 +305,7 @@ describe('extent', () => {
     expect(iter([]).extent()).toEqual([undefined, undefined]);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).extent((x, y) => y - x)).toEqual([5, 1]);
+    expect(iter([3, 2, 1, 4, 5]).extent(asc(x => x, (x, y) => y - x))).toEqual([5, 1]);
   });
   test('strings', () => {
     expect(iter(['foo', 'bar', 'baz']).extent()).toEqual(['bar', 'foo']);
@@ -331,7 +332,7 @@ describe('minIndex', () => {
     expect(iter([]).minIndex()).toBe(-1);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).minIndex((x, y) => y - x)).toBe(4);
+    expect(iter([3, 2, 1, 4, 5]).minIndex(asc(x => x, (x, y) => y - x))).toBe(4);
   });
   test('strings', () => {
     expect(iter(['foo', 'bar', 'baz']).minIndex()).toBe(1);
@@ -358,7 +359,7 @@ describe('maxIndex', () => {
     expect(iter([]).maxIndex()).toBe(-1);
   });
   test('custom comparator', () => {
-    expect(iter([3, 2, 1, 4, 5]).maxIndex((x, y) => y - x)).toBe(2);
+    expect(iter([3, 2, 1, 4, 5]).maxIndex(asc(x => x, (x, y) => y - x))).toBe(2);
   });
   test('strings', () => {
     expect(iter(['foo', 'bar', 'baz']).maxIndex()).toBe(0);

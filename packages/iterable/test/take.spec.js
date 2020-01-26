@@ -5,7 +5,7 @@ describe('take', () => {
     expect(iter([1, 2, 3, 4, 5]).take(2).toArray()).toEqual([1, 2]);
   });
   test('default', () => {
-    expect(iter([1, 2, 3, 4, 5]).take().toArray()).toEqual([]);
+    expect(iter([1, 2, 3, 4, 5]).take().toArray()).toEqual([1, 2, 3, 4, 5]);
   });
   test('a lot', () => {
     expect(iter([1, 2, 3, 4, 5]).take(7).toArray()).toEqual([1, 2, 3, 4, 5]);
@@ -14,7 +14,7 @@ describe('take', () => {
     expect(iter([]).take(2).toArray()).toEqual([]);
   });
   test('negative', () => {
-    expect(iter([1, 2, 3, 4, 5]).take(-2).toArray()).toEqual([4, 5]);
+    expect(iter([1, 2, 3, 4, 5]).take(-2).toArray()).toEqual([1, 2, 3]);
   });
 });
 

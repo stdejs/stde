@@ -1,7 +1,7 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterableZip extends IterableBase {
-  constructor(...iterables) {
+  constructor(iterables) {
     super();
     this._iterables = iterables;
   }
@@ -16,5 +16,5 @@ class IterableZip extends IterableBase {
 }
 
 IterableBase.prototype.zip = function (...iterables) {
-  return new IterableZip(this, ...iterables);
+  return new IterableZip([this, ...iterables]);
 };

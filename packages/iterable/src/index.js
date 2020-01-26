@@ -1,5 +1,6 @@
 import {Iterable} from './iterable.js';
 import {IterableRange} from './iterable-range.js';
+import {IterableArray} from './array.js';
 
 // Import extension methods
 import './extensions/append.js';
@@ -34,6 +35,9 @@ export * from './order.js';
  * @returns    {Iterable}  { description_of_the_return_value }
  */
 export function iter(iterable) {
+  if (iterable instanceof Array) {
+    return new IterableArray(iterable);
+  }
   return new Iterable(iterable);
 }
 

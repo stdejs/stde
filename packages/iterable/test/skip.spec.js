@@ -14,7 +14,7 @@ describe('skip', () => {
     expect(iter([]).skip(2).toArray()).toEqual([]);
   });
   test('negative', () => {
-    expect(iter([1, 2, 3, 4, 5]).skip(-2).toArray()).toEqual([1, 2, 3]);
+    expect(iter([1, 2, 3, 4, 5]).skip(-2).toArray()).toEqual([4, 5]);
   });
 });
 

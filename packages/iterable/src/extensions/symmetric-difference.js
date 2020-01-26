@@ -1,7 +1,7 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterableSymmetricDifference extends IterableBase {
-  constructor(iterable, ...iterables) {
+  constructor(iterable, iterables) {
     super();
     this._iterable = iterable.concat(...iterables);
   }
@@ -19,5 +19,5 @@ class IterableSymmetricDifference extends IterableBase {
 // TODO: rename to xor?
 // TODO: keySelector, equator
 IterableBase.prototype.symmetricDifference = function (...iterables) {
-  return new IterableSymmetricDifference(this, ...iterables);
+  return new IterableSymmetricDifference(this, iterables);
 };

@@ -8,6 +8,9 @@ export class Order {
 
 export class SimpleOrder extends Order {
   constructor(selector, comparator) {
+    if (new.target === SimpleOrder) {
+      throw new TypeError('Cannot construct SimpleOrder instances directly');
+    }
     super();
     this._selector = selector ?? (x => x);
     this._comparator = comparator ?? compare;

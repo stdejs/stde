@@ -1,7 +1,7 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterableConcat extends IterableBase {
-  constructor(...iterables) {
+  constructor(iterables) {
     super();
     this._iterables = iterables;
   }
@@ -14,5 +14,5 @@ class IterableConcat extends IterableBase {
 }
 
 IterableBase.prototype.concat = function (...iterables) {
-  return new IterableConcat(this, ...iterables);
+  return new IterableConcat([this, ...iterables]);
 };
