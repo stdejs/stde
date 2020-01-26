@@ -30,6 +30,10 @@ export class IterableRange extends IterableBase {
     return this._length;
   }
 
+  empty() {
+    return this._length === 0;
+  }
+
   get(index) {
     if (index < -this.length || index >= this.length) {
       throw new RangeError(`Index ${index} out of bounds [${-this.length}, ${this.length - 1}]`);
@@ -44,14 +48,14 @@ export class IterableRange extends IterableBase {
     return this._start + this._step * index;
   }
 
-  last() {
+  last(defaultValue) {
     return this.length > 0
       ? this._start + this._step * (this.length - 1)
-      : this._start;
+      : defaultValue;
   }
 
   reverse() {
-    const last = this.last();
+    const last = this.last(this._start);
     return new IterableRange(last, last + this._start - this._end, -this._step);
   }
 

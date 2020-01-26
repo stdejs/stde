@@ -30,14 +30,10 @@ class IterableSkip extends IterableBase {
 }
 
 IterableBase.prototype.skip = function (count) {
-  // count could be non-numeric (not comparable with 0)
-  // so it's safer to call .skip() for a valid numeric value
-  // and call .takeWhile() otherwise
-  // return count === 0 ? this :
-  //   count < 0 ? this.take(this.length + count)
-  //     : this.skipWhile((item, i) => i < count);
-  // return this.skipWhile((item, i) => i < count);
-  if (count < 0) {
+  if (count == null) {
+    count = 0;
+  }
+  else if (count < 0) {
     count += this.length;
   }
   return this.skipWhile((item, i) => i < count);

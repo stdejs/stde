@@ -1,16 +1,16 @@
 import {IterableBase} from './iterable-base.js';
-import {IterableRange} from './iterable-range.js';
+import {IterableRange} from './range.js';
 
 export class IterableArray extends IterableBase {
-  constructor(iterable, indices) {
+  constructor(array, indices) {
     super();
-    this._iterable = iterable;
-    this._indices = indices ?? new IterableRange(0, iterable.length);
+    this._array = array;
+    this._indices = indices ?? new IterableRange(0, array.length);
   }
 
   *[Symbol.iterator]() {
     for (const i of this._indices) {
-      yield this._iterable[i];
+      yield this._array[i];
     }
   }
 
@@ -18,28 +18,32 @@ export class IterableArray extends IterableBase {
     return this._indices.length;
   }
 
+  empty() {
+    return this._indices.empty();
+  }
+
   get(index) {
-    return this._iterable[this._indices.get(index)];
+    return this._array[this._indices.get(index)];
   }
 
   _get(index) {
-    return this._iterable[this._indices._get(index)];
+    return this._array[this._indices._get(index)];
   }
 
   set(index, value) {
-    this._iterable[this._indices.get(index)] = value;
+    this._array[this._indices.get(index)] = value;
   }
 
   _set(index, value) {
-    this._iterable[this._indices._get(index)] = value;
+    this._array[this._indices._get(index)] = value;
   }
 
   reverse() {
-    return new IterableArray(this._iterable, this._indices.reverse());
+    return new IterableArray(this._array, this._indices.reverse());
   }
 
   slice(start, end) {
-    return new IterableArray(this._iterable, this._indices.slice(start, end));
+    return new IterableArray(this._array, this._indices.slice(start, end));
   }
 
   skip(n) {
@@ -48,5 +52,9 @@ export class IterableArray extends IterableBase {
 
   take(n) {
     return this.slice(0, n);
+  }
+
+  permute(indices) {
+    return new IterableArray(this._array, indices);
   }
 }

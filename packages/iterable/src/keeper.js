@@ -21,6 +21,27 @@ export class Keeper {
   }
 }
 
+export class OrderedKeeper {
+  constructor(order) {
+    this._order = order;
+    this._prevIsSet = false;
+  }
+
+  seen(item) {
+    if (!this._prevIsSet) {
+      this._prev = item;
+      this._prevIsSet = true;
+      return false;
+    }
+    const compare = this._order.compare(this._prev, item);
+    if (compare > 0) {
+      throw new Error(`An iterable is not ordered: ${this._prev} > ${item}`);
+    }
+    this._prev = item;
+    return compare === 0;
+  }
+}
+
 function hashCode(s) {
   let h = 0;
   for (let i = 0; i < s.length; i++) {

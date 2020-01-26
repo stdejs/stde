@@ -1,5 +1,5 @@
 import {Iterable} from './iterable.js';
-import {IterableRange} from './iterable-range.js';
+import {IterableRange} from './range.js';
 import {IterableArray} from './array.js';
 
 // Import extension methods
@@ -24,7 +24,7 @@ import './extensions/zip.js';
 
 export {IterableBase} from './iterable-base.js';
 export {Iterable} from './iterable.js';
-export {IterableRange} from './iterable-range.js';
+export {IterableRange} from './range.js';
 
 export * from './order.js';
 

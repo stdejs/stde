@@ -7,4 +7,7 @@ describe('permute', () => {
   test('empty', () => {
     expect(iter([]).permute([]).toArray()).toEqual([]);
   });
+  test('permute reverse', () => {
+    expect(iter([1, 2, 3, 4, 5]).permute([4, 2, 0, 1, 3]).reverse().toArray()).toEqual([4, 2, 1, 3, 5]);
+  });
 });

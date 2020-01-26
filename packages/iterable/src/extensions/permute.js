@@ -1,21 +1,21 @@
 import {IterableBase} from '../iterable-base.js';
 
 class IterablePermute extends IterableBase {
-  constructor(iterable, order) {
+  constructor(iterable, indices) {
     super();
     this._iterable = iterable;
-    this._order = order;
+    this._indices = indices;
   }
 
   *[Symbol.iterator]() {
     // TODO: Lazy implementation?
     const items = [...this._iterable];
     for (let i = 0; i < items.length; i++) {
-      yield items[this._order[i]];
+      yield items[this._indices[i]];
     }
   }
 }
 
-IterableBase.prototype.permute = function (order) {
-  return new IterablePermute(this, order);
+IterableBase.prototype.permute = function (indices) {
+  return new IterablePermute(this, indices);
 };

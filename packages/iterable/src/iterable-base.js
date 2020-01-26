@@ -1,4 +1,4 @@
-import {compare, orders} from './order.js';
+import {orders} from './order.js';
 
 /**
  * A base abstract class for all iterable classes.
@@ -23,6 +23,7 @@ export class IterableBase {
    * @returns {number} The length of the iterable.
    */
   get length() {
+    // TODO: Performance
     return [...this].length;
   }
 
@@ -220,6 +221,7 @@ export class IterableBase {
     return -1;
   }
 
+  // TODO: Optimization for ordered iterables
   indexOf(item, fromIndex = 0) {
     return this.skip(fromIndex).findIndex(it => it === item);
   }
@@ -331,7 +333,6 @@ export class IterableBase {
   // chunk
   // compact
   // findIndex
-  // sortedIndex
   // sortedUniq
   // sample, sampleSize
   // shuffle
@@ -347,7 +348,6 @@ export class IterableBase {
   // median
   // cumsum
   // quantile, variance, deviation - distribution required?
-  // bisect, bisectLeft, bisectRight
   // quickselect
   // rollup (is it groupBy?)
   // count (non empty)

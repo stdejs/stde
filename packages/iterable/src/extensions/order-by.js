@@ -1,9 +1,10 @@
 import {IterableBase} from '../iterable-base.js';
-import {OrderedIterable} from '../ordered-iterable.js';
+import {OrderedIterable} from '../ordered.js';
+import {orders} from '../order.js';
 
 class IterableOrderBy extends OrderedIterable {
-  constructor(iterable, orderings) {
-    super(iterable, orderings);
+  constructor(iterable, order) {
+    super(iterable, order);
   }
 
   *[Symbol.iterator]() {
@@ -12,6 +13,6 @@ class IterableOrderBy extends OrderedIterable {
   }
 }
 
-IterableBase.prototype.orderBy = function (...orders) {
-  return new IterableOrderBy(this, orders);
+IterableBase.prototype.orderBy = function (...orderings) {
+  return new IterableOrderBy(this, orders(...orderings));
 };
