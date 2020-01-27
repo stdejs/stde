@@ -4,6 +4,7 @@ import {IterableArray} from './array.js';
 
 // Import extension methods
 import './extensions/append.js';
+import './extensions/chunk.js';
 import './extensions/concat.js';
 import './extensions/difference.js';
 import './extensions/distinct.js';

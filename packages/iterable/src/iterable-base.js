@@ -330,10 +330,7 @@ export class IterableBase {
   // except, ... by custom equality operator? No, filter is enough
   //
   // Lodash:
-  // chunk
   // compact
-  // findIndex
-  // sortedUniq
   // sample, sampleSize
   // shuffle
   //
