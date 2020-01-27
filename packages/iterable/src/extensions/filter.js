@@ -21,8 +21,7 @@ IterableBase.prototype.filter = function (pred) {
   return new IterableFilter(this, pred);
 };
 
-// TODO: Rename to ofType, because of Array.of()
-IterableBase.prototype.of = function (type) {
+IterableBase.prototype.ofType = function (type) {
   return this.filter(item => item instanceof type);
 };
 

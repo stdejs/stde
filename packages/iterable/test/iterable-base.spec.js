@@ -227,6 +227,9 @@ describe('some', () => {
   test('empty', () => {
     expect(iter([]).some(x => x > 0)).toBe(false);
   });
+  test('no predicate (incompatible with LINQ)', () => {
+    expect(() => iter([1, 2, 3, 4, 5]).some()).toThrow();
+  });
   test('some() checks items sequentially and stops evaluation after an item matching the predicate is found', () => {
     expect(iter([() => 1, () => 2, () => {
       throw new Error();

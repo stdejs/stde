@@ -3,6 +3,7 @@
     "include": ["packages/"],
     "excludePattern": "(node_modules|lib|test)"
   },
+  "plugins": ["plugins/markdown"],
   "ignorePrivate": true,
   "opts": {
     "destination": "./doc/",

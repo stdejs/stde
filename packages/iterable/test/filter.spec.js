@@ -12,9 +12,9 @@ describe('filter', () => {
   });
 });
 
-describe('of', () => {
+describe('ofType', () => {
   test('general', () => {
-    expect(iter([1, [], 3, {}, 5]).of(Object).toArray()).toEqual([[], {}]);
+    expect(iter([1, [], 3, {}, 5]).ofType(Object).toArray()).toEqual([[], {}]);
   });
 });
 

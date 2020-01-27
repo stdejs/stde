@@ -17,7 +17,7 @@
     "test": "jest --config=jest.json",
     "test:watch": "jest --config=jest.json --watch",
     "test:cover": "jest --config=jest.json --coverage",
-    "doc": "rimraf ./doc && jsdoc -c jsdoc.json",
+    "doc": "rimraf ./doc && jsdoc -c jsdoc.json --readme packages/iterable/README.md",
     "coveralls": "jest --config=jest.json --coverage --coverageReporters=text-lcov | coveralls",
     "prepublish": "npm run clean-build && npm run test && npm run lint && npm run build"
   },

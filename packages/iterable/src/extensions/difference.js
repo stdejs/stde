@@ -8,7 +8,7 @@ class IterableDifference extends IterableBase {
   }
 
   *[Symbol.iterator]() {
-    for (const item of this._iterable.distinct()) {
+    for (const item of this._iterable) {
       if (!this._iterables.some(iterable => iterable.includes(item))) {
         yield item;
       }

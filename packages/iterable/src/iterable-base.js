@@ -251,6 +251,7 @@ export class IterableBase {
     }
   }
 
+  // TODO: Is it an alias for compatibility with arrays?
   reduceRight(operation, init = undefined) {
     return this.reverse().reduce(operation, init);
   }
@@ -354,6 +355,9 @@ export class IterableBase {
   // ticks (similar to range, but different)
   // range (optional start?)
   // bin (related to Lodash chunk)
+  //
+  // TODO:
+  // Value selectors for sum, product, ...? Or use map?
 }
 
 /**
