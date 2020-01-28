@@ -39,7 +39,6 @@ Analogs:
 |---------------------------------|--------------------|-------------------|------------------|-------------------|------------------------------------------|----------------|---------------|------------|
 | append                          | Append             |                   |                  |                   | plus                                     |                |               |            |
 | chunk                           |                    |                   |                  | chunk             | chunk                                    |                |               | chunk      |
-|                                 |                    |                   |                  | compact           |                                          |                |               |            |
 | concat                          | Concat             | concat            | concat           | concat            | plus                                     |                | concat        | chain      |
 | difference                      |                    |                   |                  | difference        | minus                                    |                | exclude       |            |
 |                                 |                    |                   |                  | differenceBy      |                                          |                |               |            |
@@ -131,6 +130,7 @@ Analogs:
 |                                 |                    |                   |                  |                   | joinTo, joinToString                     |                |               |            |
 |                                 |                    |                   |                  |                   | merge                                    |                |               |            |
 |                                 |                    |                   |                  |                   | withIndex                                |                | entries       |            |
+|                                 |                    |                   |                  | compact           |                                          |                |               |            |
 |                                 |                    |                   |                  |                   |                                          |                |               | enumerate  |
 |                                 |                    |                   |                  |                   |                                          |                | keys          |            |
 |                                 |                    |                   |                  |                   |                                          |                | values        |            |
@@ -230,3 +230,84 @@ Analogs:
 |                                 |                    |                   |                  |                   |                                          |                |               | entries    |
 |                                 |                    |                   |                  |                   |                                          |                |               | keys       |
 |                                 |                    |                   |                  |                   |                                          |                |               | values     |
+
+Shuffling operations:
+append
+chunk
+concat
+filter[pred]
+reject[pred]
+flat
+ofType
+permute
+prepend
+reverse
+skip
+skipWhile[pred]
+slice
+take
+takeWhile[pred]
+unzip
+zip
+
+Mapping operations:
+flatMap[tr]
+map[tr]
+
+Equivalence operations:
+difference[eq]
+distinct[eq]
+except[eq]
+groupBy[eq]
+intersect[eq]
+join[eq]
+symmetricDifference[eq]
+union[eq]
+
+Ordering operations:
+orderBy[ord]
+
+
+empty
+every[pred]
+find[pred]
+findIndex[pred]
+first[pred?]
+forEach
+get
+length
+reduce
+reduceRight
+single[pred?]
+some
+sortedIndex[ord]
+sortedIndexRight[ord]
+toArray
+toMap
+toSet
+
+includes[eq]
+indexOf[eq]
+isDistinct[eq]
+
+Reducers with predefined binary op:
+extent[sel,ord]
+max[sel,ord]
+maxIndex[sel,ord]
+mean[sel]
+sum[sel]
+product[sel]
+min[sel,ord]
+minIndex[sel,ord]
+
+
+range
+
+
+Properties:
+1. indexed
+2. sorted
+3. distinct (using a key or a default key)
+4. keyed
+
+From Java Stream API: ORDERED, DISTINCT, SORTED, SIZED, NONNULL, IMMUTABLE, CONCURRENT, and SUBSIZED

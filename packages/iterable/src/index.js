@@ -19,9 +19,11 @@ import './extensions/permute.js';
 import './extensions/prepend.js';
 import './extensions/reverse.js';
 import './extensions/skip.js';
-import './extensions/symmetric-difference.js';
 import './extensions/take.js';
+import './extensions/xor.js';
 import './extensions/zip.js';
+
+import './keyed.js';
 
 export {IterableBase} from './iterable-base.js';
 export {Iterable} from './iterable.js';

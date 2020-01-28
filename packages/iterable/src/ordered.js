@@ -4,7 +4,7 @@ import {orders} from './order.js';
 
 // Optimization for:
 // min, max, minIndex, maxIndex, orderBy? - only if order is compatible
-export class OrderedIterable extends IterableBase {
+export class SortedIterable extends IterableBase {
   constructor(iterable, order) {
     super();
     this._iterable = iterable;
@@ -36,7 +36,7 @@ export class OrderedIterable extends IterableBase {
   distinct(selector, equator) {
     return selector != null || equator != null
       ? super.distinct(selector, equator)
-      : new OrderedIterableDistinct(this, this._order);
+      : new SortedIterableDistinct(this, this._order);
   }
 
   isDistinct(selector, equator) {
@@ -63,25 +63,9 @@ export class OrderedIterable extends IterableBase {
   takeWhile(pred) {
     return super.takeWhile(pred).withOrder(this._order);
   }
-
-  // min(...orderings) {
-  //   return orderings.length == 0 ? this.first() : super.min(...orderings);
-  // }
-
-  // max(...orderings) {
-  //   return orderings.length == 0 ? this.last() : super.max(...orderings);
-  // }
-
-  // minIndex(...orderings) {
-  //   return orderings.length == 0 ? 0 : super.minIndex(...orderings);
-  // }
-
-  // maxIndex(...orderings) {
-  //   return orderings.length == 0 ? this.length - 1 : super.maxIndex(...orderings);
-  // }
 }
 
-class OrderedIterableDistinct extends OrderedIterable {
+class SortedIterableDistinct extends SortedIterable {
   constructor(iterable, order) {
     super(iterable, order);
   }
@@ -97,7 +81,7 @@ class OrderedIterableDistinct extends OrderedIterable {
 }
 
 IterableBase.prototype.withOrder = function (...orderings) {
-  return new OrderedIterable(this, orders(...orderings));
+  return new SortedIterable(this, orders(...orderings));
 };
 
 function _sortedIndex(iterable, start, end, selectLeft) {

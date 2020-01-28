@@ -1,8 +1,8 @@
 import {IterableBase} from '../iterable-base.js';
-import {OrderedIterable} from '../ordered.js';
+import {SortedIterable} from '../ordered.js';
 import {orders} from '../order.js';
 
-class IterableOrderBy extends OrderedIterable {
+class IterableOrderBy extends SortedIterable {
   constructor(iterable, order) {
     super(iterable, order);
   }

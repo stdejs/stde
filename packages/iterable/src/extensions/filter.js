@@ -15,10 +15,26 @@ class IterableFilter extends IterableBase {
       }
     }
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
+
+  get order() {
+    return this._iterable.order;
+  }
+
+  isDistinct() {
+    return this._iterable.isDistinct();
+  }
 }
 
 IterableBase.prototype.filter = function (pred) {
   return new IterableFilter(this, pred);
+};
+
+IterableBase.prototype.reject = function (pred) {
+  return this.filter((item, i, iterable) => !pred(item, i, iterable));
 };
 
 IterableBase.prototype.ofType = function (type) {

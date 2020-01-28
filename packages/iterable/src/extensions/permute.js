@@ -14,6 +14,14 @@ class IterablePermute extends IterableBase {
       yield items[this._indices[i]];
     }
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
+
+  isDistinct() {
+    return this._iterable.isDistinct();
+  }
 }
 
 IterableBase.prototype.permute = function (indices) {

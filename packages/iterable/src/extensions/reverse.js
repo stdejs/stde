@@ -18,6 +18,18 @@ class IterableReverse extends IterableBase {
     // TODO: Performance
     yield* [...this._iterable].reverse();
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
+
+  // get order() {
+  //   return this._iterable.order;
+  // }
+
+  isDistinct() {
+    return this._iterable.isDistinct();
+  }
 }
 
 IterableBase.prototype.reverse = function () {

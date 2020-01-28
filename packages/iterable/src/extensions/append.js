@@ -11,6 +11,10 @@ class IterableAppend extends IterableBase {
     yield* this._iterable;
     yield* this._items;
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
 }
 
 IterableBase.prototype.append = function (...items) {

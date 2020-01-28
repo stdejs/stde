@@ -11,6 +11,10 @@ class IterablePrepend extends IterableBase {
     yield* this._items;
     yield* this._iterable;
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
 }
 
 IterableBase.prototype.prepend = function (...items) {

@@ -1,3 +1,4 @@
+import {eqs} from './equality.js';
 import {orders} from './order.js';
 
 /**
@@ -16,6 +17,24 @@ export class IterableBase {
     // TODO: .withIndex()
     return new Proxy(this, indexAccessHandler);
   }
+
+  withEquality(...equators) {
+    this._equality = eqs(...equators);
+    return this;
+  }
+
+  get equality() {
+    return this._equality;
+  }
+
+  // withOrder(...orderings) {
+  //   this._order = orders(...orderings);
+  //   return this;
+  // }
+
+  // get order() {
+  //   return this._order;
+  // }
 
   /**
    * Get length.
@@ -130,9 +149,9 @@ export class IterableBase {
    * @returns    {object}  A minimum item of an iterable.
    */
   min(...orderings) {
-    // return _reduce2(this, (x, y) => comparator(x, y) < 0 ? x : y, () => undefined);
     const order = orders(...orderings);
     return _reduce2(this, (x, y) => order.compare(x, y) < 0 ? x : y, () => undefined);
+    // return this.reduce((x, y) => order.less(x, y) ? x : order.less(y, x) ? y : x, undefined);
   }
 
   /**
@@ -144,32 +163,33 @@ export class IterableBase {
    * @returns    {object}  A maximum item of an iterable.
    */
   max(...orderings) {
-    // return _reduce2(this, (x, y) => comparator(x, y) > 0 ? x : y, () => undefined);
     const order = orders(...orderings);
     return _reduce2(this, (x, y) => order.compare(x, y) > 0 ? x : y, () => undefined);
+    // return this.reduce((x, y) => order.compare(x, y) > 0 ? x : y, () => undefined);
   }
 
   extent(...orderings) {
     // TODO: One pass
     return [this.min(...orderings), this.max(...orderings)];
+    // const order = orders(...orderings);
+    // return _reduce2(this, (x, y) => {
+    //   order.compare(x, y) > 0 ? x : y;
+    // }, () => [undefined, undefined]);
   }
 
   minIndex(...orderings) {
     let index = 0;
-    let found = true;
     const order = orders(...orderings);
-    // _reduce2(this, (x, y, i) => comparator(x, y) < 0 ? x : (index = i, y), () => found = false);
-    _reduce2(this, (x, y, i) => order.compare(x, y) < 0 ? x : (index = i, y), () => found = false);
-    return found ? index : -1;
+    _reduce2(this, (x, y, i) => order.compare(x, y) < 0 ? x : (index = i, y), () => index = -1);
+    return index;
+    // return _reduce2(this, (x, y, i) => order.compare(x, y) < 0 ? x : (index = i, y), () => index = -1);
   }
 
   maxIndex(...orderings) {
     let index = 0;
-    let found = true;
     const order = orders(...orderings);
-    // _reduce2(this, (x, y, i) => comparator(x, y) > 0 ? x : (index = i, y), () => found = false);
-    _reduce2(this, (x, y, i) => order.compare(x, y) > 0 ? x : (index = i, y), () => found = false);
-    return found ? index : -1;
+    _reduce2(this, (x, y, i) => order.compare(x, y) > 0 ? x : (index = i, y), () => index = -1);
+    return index;
   }
 
   /**
@@ -183,13 +203,7 @@ export class IterableBase {
    * @returns    {boolean}   A function value.
    */
   every(pred) {
-    let i = 0;
-    for (const item of this) {
-      if (!pred(item, i++, this)) {
-        return false;
-      }
-    }
-    return true;
+    return this.reject(pred).empty();
   }
 
   /**
@@ -202,13 +216,7 @@ export class IterableBase {
    * @returns    {boolean}   A function value.
    */
   some(pred) {
-    let i = 0;
-    for (const item of this) {
-      if (pred(item, i++, this)) {
-        return true;
-      }
-    }
-    return false;
+    return !this.filter(pred).empty();
   }
 
   findIndex(pred) {
@@ -221,7 +229,6 @@ export class IterableBase {
     return -1;
   }
 
-  // TODO: Optimization for ordered iterables
   indexOf(item, fromIndex = 0) {
     return this.skip(fromIndex).findIndex(it => it === item);
   }

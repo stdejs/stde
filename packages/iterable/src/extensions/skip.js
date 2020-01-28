@@ -27,6 +27,18 @@ class IterableSkip extends IterableBase {
     }
     yield* iterator;
   }
+
+  get equality() {
+    return this._iterable.equality;
+  }
+
+  get order() {
+    return this._iterable.order;
+  }
+
+  isDistinct() {
+    return this._iterable.isDistinct();
+  }
 }
 
 IterableBase.prototype.skip = function (count) {
