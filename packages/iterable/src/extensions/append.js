@@ -12,6 +12,17 @@ class IterableAppend extends IterableBase {
     yield* this._items;
   }
 
+  get length() {
+    return this._iterable.length + this._items.length;
+  }
+
+  _get(index) {
+    const length = this._iterable.length;
+    return index < length
+      ? this._iterable.get(index)
+      : this._items[index - length];
+  }
+
   get equality() {
     return this._iterable.equality;
   }

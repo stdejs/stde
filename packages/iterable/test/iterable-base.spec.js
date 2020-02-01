@@ -22,25 +22,25 @@ describe('type conversion', () => {
 
 describe('array index access', () => {
   test('get', () => {
-    expect(iter([1, 2, 3, 4, 5])[3]).toBe(4);
+    expect(iter([1, 2, 3, 4, 5]).withIndex()[3]).toBe(4);
   });
   test('get last', () => {
-    expect(iter([1, 2, 3, 4, 5])[-1]).toBe(5);
+    expect(iter([1, 2, 3, 4, 5]).withIndex()[-1]).toBe(5);
   });
   test('get out of bounds', () => {
-    expect(() => iter([1, 2, 3, 4, 5])[7]).toThrow();
+    expect(() => iter([1, 2, 3, 4, 5]).withIndex()[7]).toThrow();
   });
   test('get out of bounds 2', () => {
-    expect(() => iter([1, 2, 3, 4, 5])[-7]).toThrow();
+    expect(() => iter([1, 2, 3, 4, 5]).withIndex()[-7]).toThrow();
   });
   test('get non existent', () => {
-    expect(iter([1, 2, 3, 4, 5])['non existent']).toBe(undefined);
+    expect(iter([1, 2, 3, 4, 5]).withIndex()['non existent']).toBe(undefined);
   });
   test('set', () => {
-    expect(() => iter([1, 2, 3, 4, 5])[3] = 1).toThrow();
+    expect(() => iter([1, 2, 3, 4, 5]).withIndex()[3] = 1).toThrow();
   });
   test('delete', () => {
-    expect(() => delete iter([1, 2, 3, 4, 5])[3]).toThrow();
+    expect(() => delete iter([1, 2, 3, 4, 5]).withIndex()[3]).toThrow();
   });
 });
 

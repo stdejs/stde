@@ -8,8 +8,17 @@ class IterableOrderBy extends SortedIterable {
   }
 
   *[Symbol.iterator]() {
-    // TODO: Lazy?
-    yield* [...super[Symbol.iterator]()].sort((x, y) => this._order.compare(x, y));
+    if (this._cache == null) {
+      this._cache = [...super[Symbol.iterator]()].sort((x, y) => this._order.compare(x, y));
+    }
+    yield* this._cache;
+  }
+
+  _get(index) {
+    if (this._cache == null) {
+      this._cache = [...super[Symbol.iterator]()].sort((x, y) => this._order.compare(x, y));
+    }
+    return this._cache[index];
   }
 }
 

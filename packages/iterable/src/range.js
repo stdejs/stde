@@ -15,12 +15,20 @@ export class IterableRange extends IterableBase {
   *[Symbol.iterator]() {
     if (this._step > 0) {
       for (let i = this._start; i < this._end; i += this._step) {
+        // TODO: Remove
+        if (i > 1000) {
+          throw new Error('overflow');
+        }
         yield i;
       }
     }
     else {
       // eslint-disable-next-line for-direction
       for (let i = this._start; i > this._end; i += this._step) {
+        // TODO: Remove
+        if (i < -1000) {
+          throw new Error('overflow');
+        }
         yield i;
       }
     }
@@ -34,15 +42,15 @@ export class IterableRange extends IterableBase {
     return this._length === 0;
   }
 
-  get(index) {
-    if (index < -this.length || index >= this.length) {
-      throw new RangeError(`Index ${index} out of bounds [${-this.length}, ${this.length - 1}]`);
-    }
-    if (index < 0) {
-      index += this.length;
-    }
-    return this._get(index);
-  }
+  // get(index) {
+  //   if (index < -this.length || index >= this.length) {
+  //     throw new RangeError(`Index ${index} out of bounds [${-this.length}, ${this.length - 1}]`);
+  //   }
+  //   if (index < 0) {
+  //     index += this.length;
+  //   }
+  //   return this._get(index);
+  // }
 
   _get(index) {
     return this._start + this._step * index;
@@ -57,6 +65,10 @@ export class IterableRange extends IterableBase {
   reverse() {
     const last = this.last(this._start);
     return new IterableRange(last, last + this._start - this._end, -this._step);
+  }
+
+  mirror() {
+    return new IterableRange(-this._start - 1, -this._end - 1, -this._step);
   }
 
   slice(start, end) {

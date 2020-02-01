@@ -7,23 +7,23 @@ describe('ordered', () => {
   test('withOrder', () => {
     expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().distinct().toArray()).toEqual([1, 2, 3, 4, 5]);
   });
-  test('sortedIndex', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndex(3)).toBe(3);
+  test('sortedIndexOf', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexOf(3)).toBe(3);
   });
-  test('sortedIndex low', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndex(-1)).toBe(0);
+  test('sortedIndexOf low', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexOf(-1)).toBe(0);
   });
-  test('sortedIndex high', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndex(7)).toBe(9);
+  test('sortedIndexOf high', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexOf(7)).toBe(9);
   });
-  test('sortedIndexRight', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexRight(3)).toBe(6);
+  test('sortedRightIndexOf', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedRightIndexOf(3)).toBe(6);
   });
-  test('sortedIndexRight low', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexRight(-1)).toBe(0);
+  test('sortedRightIndexOf low', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedRightIndexOf(-1)).toBe(0);
   });
-  test('sortedIndexRight high', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedIndexRight(7)).toBe(9);
+  test('sortedRightIndexOf high', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().sortedRightIndexOf(7)).toBe(9);
   });
   test('indexOf', () => {
     expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().indexOf(3)).toBe(3);
@@ -32,14 +32,14 @@ describe('ordered', () => {
     expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().indexOf(7)).toBe(-1);
   });
 
-  test('sortedIndex skip', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().skip(4).sortedIndex(3)).toBe(0);
+  test('sortedIndexOf skip', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().skip(4).sortedIndexOf(3)).toBe(0);
   });
-  test('sortedIndex take', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().take(5).sortedIndex(4)).toBe(5);
+  test('sortedIndexOf take', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().take(5).sortedIndexOf(4)).toBe(5);
   });
-  test('sortedIndex except', () => {
-    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().except(3).sortedIndex(4)).toBe(3);
+  test('sortedIndexOf except', () => {
+    expect(iter([1, 1, 2, 3, 3, 3, 4, 5, 5]).withOrder().except(3).sortedIndexOf(4)).toBe(3);
   });
 
   // const data = iter([

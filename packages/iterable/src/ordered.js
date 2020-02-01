@@ -15,20 +15,27 @@ export class SortedIterable extends IterableBase {
     yield* this._iterable;
   }
 
+  _get(index) {
+    if (!this._iterable._get) {
+      console.log(this._iterable);
+    }
+    return this._iterable._get(index);
+  }
+
   get order() {
     return this._order;
   }
 
-  sortedIndex(item, start, end) {
-    return _sortedIndex(this, start, end, x => this._order.compare(item, x) <= 0);
+  sortedIndexOf(item, start, end) {
+    return _sortedIndexOf(this, start, end, x => this._order.compare(item, x) <= 0);
   }
 
-  sortedIndexRight(item, start, end) {
-    return _sortedIndex(this, start, end, x => this._order.compare(item, x) < 0);
+  sortedRightIndexOf(item, start, end) {
+    return _sortedIndexOf(this, start, end, x => this._order.compare(item, x) < 0);
   }
 
   indexOf(item, start, end) {
-    const index = this.sortedIndex(item, start, end);
+    const index = this.sortedIndexOf(item, start, end);
     return index < this.length && this._order.compare(this.get(index), item) === 0
       ? index : -1;
   }
@@ -53,15 +60,15 @@ export class SortedIterable extends IterableBase {
   }
 
   filter(pred) {
-    return super.filter(pred).withOrder(this._order);
+    return this._iterable.filter(pred).withOrder(this._order);
   }
 
   skipWhile(pred) {
-    return super.skipWhile(pred).withOrder(this._order);
+    return this._iterable.skipWhile(pred).withOrder(this._order);
   }
 
   takeWhile(pred) {
-    return super.takeWhile(pred).withOrder(this._order);
+    return this._iterable.takeWhile(pred).withOrder(this._order);
   }
 }
 
@@ -84,7 +91,7 @@ IterableBase.prototype.withOrder = function (...orderings) {
   return new SortedIterable(this, orders(...orderings));
 };
 
-function _sortedIndex(iterable, start, end, selectLeft) {
+function _sortedIndexOf(iterable, start, end, selectLeft) {
   if (start == null) {
     start = 0;
   }

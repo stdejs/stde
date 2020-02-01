@@ -1,6 +1,6 @@
 {
-  "testMatch": ["**/test/**/*.spec.js"],
+  "testMatch": ["<rootDir>/packages/*/test/**/*.spec.js"],
   "collectCoverage": false,
-  "collectCoverageFrom": ["**/src/**"],
+  "collectCoverageFrom": ["<rootDir>/packages/*/src/**"],
   "coverageReporters": ["lcov", "text-summary"]
 }

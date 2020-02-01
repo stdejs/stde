@@ -2,19 +2,22 @@ import {eqs} from './equality.js';
 import {orders} from './order.js';
 
 /**
- * A base abstract class for all iterable classes.
+ * An abstract base class for all iterable classes.
  */
 export class IterableBase {
   /**
    * Constructs a new instance.
    *
-   * @returns    {Proxy}  Proxy of an iterable instance. The proxy handles index operation [i].
+   * @returns    {IterableBase}  An iterable instance.
    */
   constructor() {
     if (new.target === IterableBase) {
       throw new TypeError('Cannot construct IterableBase instances directly');
     }
-    // TODO: .withIndex()
+    // return new Proxy(this, indexAccessHandler);
+  }
+
+  withIndex() {
     return new Proxy(this, indexAccessHandler);
   }
 
@@ -42,8 +45,9 @@ export class IterableBase {
    * @returns {number} The length of the iterable.
    */
   get length() {
-    // TODO: Performance
-    return [...this].length;
+    let i = 0;
+    for (const iterator = this[Symbol.iterator](); !iterator.next().done; i++);
+    return i;
   }
 
   /**
@@ -56,12 +60,52 @@ export class IterableBase {
   }
 
   /**
+   * Returns an item of an iterable with a specified index.
+   *
+   * A negative index allows one to count items from end.
+   * A last item has -1 index.
+   *
+   * @param      {number}  [index]  An item index (-length <= index < length).
+   * @returns    {object}  An item with a specified index.
+   * @throws {RangeError} Throws an error if an index is out of bounds, or it's impossible to get an item.
+   */
+  get(index) {
+    const length = this.length;
+    if (index < -length || index >= length) {
+      throw new RangeError(`Index ${index} out of bounds [${-length}, ${length - 1}]`);
+    }
+    if (index < 0) {
+      index += length;
+    }
+    return this._get(index);
+  }
+
+  /**
+   * Protected method to get an item with a specified index.
+   * Accepts only a non-negative index.
+   * Doesn't check whether an index is out of bounds.
+   *
+   * @param      {number}  [index]  An item index (0 <= index < length).
+   * @returns    {object}  An item with a specified index.
+   * @throws {RangeError} Throws an error if an iterable collection doesn't contain an item with a specified index.
+   */
+  _get(index) {
+    let i = 0;
+    for (const item of this) {
+      if (i++ === index) {
+        return item;
+      }
+    }
+    throw new RangeError(`Item with index ${index} not found`);
+  }
+
+  /**
    * Returns an array representation of an iterable.
    *
    * @returns    {Array}  Array representation of an iterable.
    */
   toArray() {
-    return [...this];
+    return Array.from(this);
   }
 
   toSet() {
@@ -70,25 +114,6 @@ export class IterableBase {
 
   toMap() {
     return new Map(this);
-  }
-
-  /**
-   * Returns an item of an iterable with a specified index.
-   *
-   * A negative index allows one to count items from end.
-   * A last item has -1 index.
-   *
-   * @param      {number}  [index]  An item index.
-   * @returns    {Array}  An item with a specified index.
-   */
-  get(index) {
-    // TODO: Performance, lazy
-    const array = [...this];
-    const length = array.length;
-    if (index < -length || index >= length) {
-      throw new Error('Index out of bounds');
-    }
-    return array[(index % length + length) % length];
   }
 
   /**
@@ -229,15 +254,15 @@ export class IterableBase {
     return -1;
   }
 
-  indexOf(item, fromIndex = 0) {
-    return this.skip(fromIndex).findIndex(it => it === item);
+  indexOf(item, start, end) {
+    return this.slice(start, end).findIndex(it => it === item);
   }
 
   // Just for compatibility with arrays
   // Arrays has a different interpretation of negative fromIndex
   // TODO: contains, has?
-  includes(item, fromIndex = 0) {
-    return this.indexOf(item, fromIndex) !== -1;
+  includes(item, start, end) {
+    return this.indexOf(item, start, end) !== -1;
   }
 
   /**
